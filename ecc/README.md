@@ -286,6 +286,46 @@ git commit & gh pr create     # 普通のコミット & PR
 | `ecc-build-error-resolver` | 最小差分でビルド/型エラー解消（model: sonnet） |
 | `ecc-refactor-cleaner` | デッドコード削除・統合（model: sonnet） |
 
+## スキル一覧
+
+| Skill | 説明 | 呼び出し元 |
+|-------|------|-----------|
+| `tdd-workflow` | TDD 手順（RED → GREEN → REFACTOR）の playbook | `/ecc-tdd`、TDD 文脈で自動参照 |
+| `rules-distill` | セッションから always-follow ルールを抽出する手順 | `/ecc-rules-distill`、ルール抽出文脈で自動参照 |
+| `continuous-learning-v2` | Instinct ベースの学習システム本体（Python CLI と hook 一式を含む） | `/ecc-evolve` `/ecc-promote` `/ecc-instinct-*` |
+
+各スキルのファイル構成:
+
+| Skill | ファイル数 | 主な中身 |
+|-------|----------|---------|
+| `tdd-workflow` | 1 | `SKILL.md`（playbook のみ） |
+| `rules-distill` | 3 | `SKILL.md` + `scripts/scan-rules.sh` + `scripts/scan-skills.sh` |
+| `continuous-learning-v2` | 10 | `SKILL.md`, `config.json`, `scripts/instinct-cli.py`（本体）, `hooks/observe.sh`, `agents/*.sh` 等 |
+
+## スクリプト一覧
+
+`/ecc-skill-health` のためだけに使われる Node.js スクリプト群。他のコマンドは使わないので `/ecc-skill-health` を使わない場合は不要。
+
+| ファイル | 行数 | 役割 |
+|---------|------|------|
+| `skills-health.js` | 132 | エントリポイント。`--dashboard` `--panel` `--json` 引数をさばく |
+| `lib/utils.js` | 629 | クロスプラットフォームのファイル/パス操作ユーティリティ |
+| `lib/skill-evolution/index.js` | 20 | 下記 5 ファイルをまとめる barrel export |
+| `lib/skill-evolution/dashboard.js` | 401 | ダッシュボード UI レンダラ（チャート・パネル） |
+| `lib/skill-evolution/health.js` | 263 | 各 skill の健全性スコア算出（成功率、頻度など） |
+| `lib/skill-evolution/provenance.js` | 187 | skill の出自・由来の追跡 |
+| `lib/skill-evolution/tracker.js` | 146 | skill 使用履歴の記録 |
+| `lib/skill-evolution/versioning.js` | 237 | skill のバージョン履歴管理 |
+
+依存関係:
+
+```
+/ecc-skill-health
+  └─ skills-health.js
+     ├─ lib/utils.js
+     └─ lib/skill-evolution/*.js
+```
+
 ## クレジット
 
 このソースのコマンドとエージェントは [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) を元にしています。ライセンスと出典の詳細は上流のリポジトリを参照してください。

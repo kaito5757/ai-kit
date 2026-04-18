@@ -215,6 +215,103 @@ git commit & gh pr create     # 普通のコミット & PR
 | 「なんか計画立てたい」 | `/ecc-plan`（軽）or `/ecc-prp-plan`（重） |
 | PR 作成フェーズだけ | `/ecc-prp-commit` + `/ecc-prp-pr` だけ |
 
+## learn のシナリオ別使い分け
+
+`learn` は単発で使うものではなく、**日常の `core` / `prp` セッションに挟み込みながら長期運用する**ワークフロー。使い方は大きく 4 パターン。
+
+### パターン L1: セッション中の即席取り込み（最頻）
+
+非自明な解決をした瞬間に打つ。気付いた時にその場で。
+
+```
+セッション中に「これ他のプロジェクトでも使えそう」と感じた
+  ↓
+/ecc-learn-eval
+  ↓ 品質評価 → Global か Project か自動判定
+  ↓
+自動で .claude/skills/learned/ または ~/.claude/skills/learned/ に保存
+```
+
+**判断基準**:
+- 非自明（ググっても出てこない / 試行錯誤の結果）→ 保存する価値あり
+- typo 修正、自明な書き換え → 保存しない
+
+### パターン L2: 既存リポからの一括抽出（初回セットアップ時）
+
+新しいプロジェクトで「このリポのパターンを AI に学ばせたい」時。
+
+```
+新しいリポに ai-kit を入れた直後
+  ↓
+/ecc-skill-create
+  ↓ git log 解析 → コーディングパターン抽出
+  ↓
+SKILL.md を `.claude/skills/` に生成
+```
+
+**使いどころ**: 既にコミット履歴がある中規模以上のプロジェクトに途中参加する時、レガシーコードを継続メンテする時。
+
+### パターン L3: 定期棚卸し（週次〜月次）
+
+溜まった instinct を整理する。
+
+```
+1. /ecc-instinct-status            # 今どれだけ溜まっているか確認
+   ↓ 複数プロジェクトで見た「当たり」の instinct を
+2. /ecc-promote <instinct-id>      # project → global に昇格
+   ↓ 似た instinct が 3〜5 個以上溜まってきたら
+3. /ecc-evolve                     # クラスタ分析 + 進化提案（ドライラン）
+   ↓ 内容を確認して納得したら
+4. /ecc-evolve --generate          # skill / command / agent として実体化
+   ↓ 最後に
+5. /ecc-skill-health               # ポートフォリオの健全性チェック（どれが廃れてるか等）
+```
+
+**頻度**: 週 1 〜 月 1 くらい。毎日やるものではない。
+
+### パターン L4: チーム共有 / マシン移行
+
+他人に渡す、または新しいマシンに移す時。
+
+```
+エクスポート側:
+  /ecc-instinct-export --scope global --min-confidence 0.7 --output team-instincts.yaml
+
+インポート側:
+  /ecc-instinct-import team-instincts.yaml --scope global --min-confidence 0.7
+  /ecc-instinct-import https://example.com/team.yaml   # URL 直接も可
+```
+
+**使いどころ**: チーム標準の instinct を共有、プロジェクトテンプレートに同梱、マシン買い替え時のバックアップ。
+
+### learn の各コマンドの使いどころ
+
+| コマンド | 使うタイミング |
+|---------|---------------|
+| `/ecc-learn-eval` | **最も使う**。セッション中に「これ保存したい」と思った瞬間 |
+| `/ecc-learn` | `learn-eval` と同じだが評価なしで強制 Global 保存（軽量） |
+| `/ecc-skill-create` | プロジェクト開始時、既存リポのパターンを一括抽出したい時 |
+| `/ecc-instinct-status` | 棚卸し開始時、現状把握 |
+| `/ecc-promote` | 複数プロジェクトで見た instinct を global に昇格したい時 |
+| `/ecc-evolve` | 似た instinct が 3〜5 個溜まってきた時。クラスタ化で高次構造へ |
+| `/ecc-skill-health` | 月 1 くらい。skill の成功率や廃れ具合を可視化 |
+| `/ecc-instinct-export` / `-import` | チーム共有、マシン移行、バックアップ |
+
+### Auto memory との棲み分け
+
+Claude Code には組み込みの **auto memory**（`~/.claude/projects/<project>/memory/`）もあるが、役割が違う。
+
+| | ecc の `learn` 系 | Claude Code の auto memory |
+|--|-------------------|---------------------------|
+| 起動 | ユーザーが `/ecc-learn-eval` 等を明示的に打つ | Claude が会話中に自動判断 |
+| 保存先 | `~/.claude/skills/learned/`, `~/.claude/homunculus/` | `~/.claude/projects/<project>/memory/` |
+| 粒度 | 再利用可能なパターン（SKILL.md、instinct） | プロジェクト固有の feedback・設定・方針 |
+| 共有 | export / import でチーム共有可能 | 個人ローカル |
+
+**棲み分けの目安**:
+- 「このプロジェクトでの決めごと・好み」→ auto memory に任せる（Claude が自動）
+- 「他プロジェクトでも使える解法・パターン」→ `/ecc-learn-eval` で明示的に保存
+
 ## 個別コマンド指定時の自動依存解決
 
 特定のコマンドを指定した場合、そのコマンドが呼び出す **agent / skill / scripts** は自動で一緒にインストールされます。

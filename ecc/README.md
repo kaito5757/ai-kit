@@ -1,8 +1,17 @@
 # ecc — everything-claude-code
 
-[affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) から抽出したコマンド・エージェントをまとめたソースです。
+[affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) から抽出したコマンド・エージェント・スキル・スクリプトをまとめたソースです。
 
-frontmatter の `description` フィールドは日本語化していますが、本文は基本的に上流のままです。
+frontmatter の `description` フィールドは日本語化していますが、本文は基本的に上流のままです。コマンド内の CLI パスは project-local（`.claude/skills/...`）に調整済みです。
+
+## このソースに含まれるもの
+
+| 種別 | 場所 | 内容 |
+|------|------|------|
+| Commands | `ecc/commands/` | 19 個の slash コマンド |
+| Agents | `ecc/agents/` | 5 個の subagent |
+| Skills | `ecc/skills/` | `continuous-learning-v2`, `tdd-workflow`, `rules-distill` の 3 つ（付属 Python / Shell スクリプト込み） |
+| Scripts | `ecc/scripts/` | `/ecc-skill-health` が使う Node.js スクリプト群（`skills-health.js` とその lib） |
 
 ## インストール
 
@@ -143,7 +152,9 @@ PRD 作成から PR 出しまでを一気通貫で進めるワークフロー。
 
 ## 個別コマンド指定時の自動依存解決
 
-特定のコマンドを指定した場合、そのコマンドが呼び出すエージェントは自動で一緒にインストールされます。
+特定のコマンドを指定した場合、そのコマンドが呼び出す **agent / skill / scripts** は自動で一緒にインストールされます。
+
+### Agent の自動追加
 
 | Command | 自動で入る Agent |
 |---------|-----------------|
@@ -151,6 +162,30 @@ PRD 作成から PR 出しまでを一気通貫で進めるワークフロー。
 | `ecc-tdd` | `ecc-tdd-guide` |
 | `ecc-code-review` | `ecc-code-reviewer` |
 | `ecc-build-fix` | `ecc-build-error-resolver` |
+
+### Skill の自動追加
+
+| Command | 自動で入る Skill |
+|---------|-----------------|
+| `ecc-tdd` | `tdd-workflow` |
+| `ecc-rules-distill` | `rules-distill` |
+| `ecc-evolve` / `ecc-promote` / `ecc-instinct-*` | `continuous-learning-v2` |
+
+### Scripts の自動追加
+
+| Command | 自動で入る Scripts |
+|---------|-------------------|
+| `ecc-skill-health` | `skills-health.js` + `lib/skill-evolution/` 一式 |
+
+## ランタイム要件
+
+| ランタイム | 必要なコマンド |
+|-----------|--------------|
+| Python 3 | `/ecc-evolve`, `/ecc-promote`, `/ecc-instinct-*`（`continuous-learning-v2` の instinct CLI） |
+| Node.js | `/ecc-skill-health`（ダッシュボード表示） |
+| Bash | スキル付属のシェルスクリプト各種 |
+
+該当コマンドを使わない場合、ランタイムは未インストールで問題ありません。
 
 ## コマンド一覧
 

@@ -15,11 +15,16 @@ curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | ba
 ```
 .claude/
 ├── commands/   # Claude Code 用 slash コマンド
-└── agents/     # Claude Code 用 subagent
+├── agents/     # Claude Code 用 subagent
+├── skills/     # コマンドが参照するスキル（SKILL.md, 付属スクリプト）
+└── scripts/    # コマンドが呼び出す共通スクリプト (Node.js)
 .cursor/
 ├── commands/   # Cursor 用 slash コマンド
-└── agents/     # Cursor 用 subagent（Cursor 2.4+）
+├── agents/     # Cursor 用 subagent（Cursor 2.4+）
+└── skills/     # Cursor 用 SKILL.md（Cursor 2.4+）
 ```
+
+> `.claude/scripts/` は両ツール共通で、Cursor 側のコマンドもこのパスを参照します。
 
 ## 収録ソース
 
@@ -81,6 +86,16 @@ curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | ba
 ```
 
 ソースごとの具体例は各ソースの README（例: [ecc/README.md](ecc/README.md)）を参照してください。
+
+## ランタイム要件
+
+一部のコマンドは外部ランタイムを必要とします。不要なコマンドを使わない場合は未インストールで構いません。
+
+| ランタイム | 必要なコマンド | 用途 |
+|-----------|--------------|------|
+| Python 3 | `/ecc-evolve`, `/ecc-promote`, `/ecc-instinct-*` | `continuous-learning-v2` の instinct CLI を実行 |
+| Node.js | `/ecc-skill-health` | `skills-health.js` ダッシュボードを実行 |
+| Bash | 各種 `.sh` スクリプト（スキル内の補助用） | プロジェクト検出、rule スキャン等 |
 
 ## Claude Code / Cursor の互換性について
 

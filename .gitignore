@@ -1,2 +1,10 @@
 .claude/settings.local.json
+
+# install.sh で配置されるドッグフーディング成果物（ソースは ecc/ 側）
+.claude/commands/
+.claude/agents/
+.claude/skills/
+.claude/scripts/
+.cursor/
+
 .DS_Store

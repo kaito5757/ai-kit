@@ -101,7 +101,7 @@ curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | ba
 
 - **Commands**: どちらのツールも同じマークダウン形式（frontmatter 付き）を使うので、ファイルはそのまま互換。
 - **Agents**: Cursor 2.4+ は `.cursor/agents/` を公式サポート。また `.claude/agents/` もフォールバックとして読み込むので、Claude 用の agent ファイルはそのまま Cursor でも動きます（`tools` や `model: opus` などの Claude 固有フィールドは Cursor 側で無視されます）。
-- **Hooks**: Cursor の hooks は現状グローバル（`~/.cursor/hooks.json`）のみで project 単位は未対応のため、本キットには含めていません。
+- **Hooks**: Cursor は project 単位（`<project>/.cursor/hooks.json`）とグローバル（`~/.cursor/hooks.json`）の両方に公式対応。Claude Code 側は `.claude/settings.json` が近い立ち位置。現状 ai-kit の `ecc` ソースは hooks を含めていませんが、必要になればソースに追加可能です。
 
 ## アンインストール
 

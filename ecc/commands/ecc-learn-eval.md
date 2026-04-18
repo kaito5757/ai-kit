@@ -22,9 +22,10 @@ Look for:
 
 3. **Determine save location:**
    - Ask: "Would this pattern be useful in a different project?"
-   - **Global** (`~/.claude/skills/learned/`): Generic patterns usable across 2+ projects (bash compatibility, LLM API behavior, debugging techniques, etc.)
-   - **Project** (`.claude/skills/learned/` in current project): Project-specific knowledge (quirks of a particular config file, project-specific architecture decisions, etc.)
+   - **Global** (`~/.claude/skills/<pattern-name>/SKILL.md`): Generic patterns usable across 2+ projects (bash compatibility, LLM API behavior, debugging techniques, etc.)
+   - **Project** (`.claude/skills/<pattern-name>/SKILL.md` in current project): Project-specific knowledge (quirks of a particular config file, project-specific architecture decisions, etc.)
    - When in doubt, choose Global (moving Global → Project is easier than the reverse)
+   - **重要**: Claude Code は `~/.claude/skills/<name>/SKILL.md` のフラット 1 階層のみスキャンする。`~/.claude/skills/learned/<name>/` のような中間ディレクトリを作ると**自動参照されない**。中間階層は**絶対に作らない**こと
 
 4. Draft the skill file using this format:
 
@@ -57,7 +58,7 @@ origin: auto-extracted
 
    Execute **all** of the following before evaluating the draft:
 
-   - [ ] Grep `~/.claude/skills/` and relevant project `.claude/skills/` files by keyword to check for content overlap
+   - [ ] Grep `~/.claude/skills/` and relevant project `.claude/skills/` files by keyword to check for content overlap（保存先は必ずフラット `<name>/SKILL.md`、`learned/` 等の中間ディレクトリを作らないこと）
    - [ ] Check MEMORY.md (both project and global) for overlap
    - [ ] Consider whether appending to an existing skill would suffice
    - [ ] Confirm this is a reusable pattern, not a one-off fix

@@ -229,8 +229,10 @@ git commit & gh pr create     # 普通のコミット & PR
 /ecc-learn-eval
   ↓ 品質評価 → Global か Project か自動判定
   ↓
-自動で .claude/skills/learned/ または ~/.claude/skills/learned/ に保存
+自動で `.claude/skills/<name>/SKILL.md` または `~/.claude/skills/<name>/SKILL.md` に保存
 ```
+
+> **注意**: Claude Code の skill スキャンはフラット 1 階層のみ（`~/.claude/skills/<name>/SKILL.md`）。`~/.claude/skills/learned/<name>/` のような中間ディレクトリを作ると**自動参照されない**。ai-kit の ecc-learn 系はフラット保存するよう調整済み。
 
 **判断基準**:
 - 非自明（ググっても出てこない / 試行錯誤の結果）→ 保存する価値あり

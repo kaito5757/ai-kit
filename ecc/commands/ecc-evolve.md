@@ -159,7 +159,7 @@ evolved_from:
 ---
 name: debugger
 description: Systematic debugging agent
-model: sonnet
+model: claude-opus-4-7-thinking-high
 evolved_from:
   - debug-check-logs
   - debug-isolate

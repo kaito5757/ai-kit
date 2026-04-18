@@ -2,7 +2,7 @@
 name: ecc-code-reviewer
 description: コードレビューのスペシャリスト。品質・セキュリティ・保守性の観点からコードをプロアクティブにレビューする。コードを書いた直後や変更した直後に使用。すべてのコード変更で MUST BE USED。
 tools: ["Read", "Grep", "Glob", "Bash"]
-model: sonnet
+model: claude-opus-4-7-thinking-high
 ---
 
 You are a senior code reviewer ensuring high standards of code quality and security.

@@ -2,7 +2,7 @@
 name: ecc-build-error-resolver
 description: ビルド・TypeScript エラー解消のスペシャリスト。ビルド失敗や型エラー発生時に PROACTIVELY に使用。アーキテクチャ変更はせず、最小差分でビルド/型エラーのみを修正。ビルドを素早くグリーンに戻すことに特化。
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
-model: sonnet
+model: claude-opus-4-7-thinking-high
 ---
 
 # Build Error Resolver

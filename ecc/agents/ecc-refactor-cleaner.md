@@ -2,7 +2,7 @@
 name: ecc-refactor-cleaner
 description: デッドコード削除・統合のスペシャリスト。未使用コード・重複・リファクタリングが必要な際に PROACTIVELY に使用。knip / depcheck / ts-prune などの解析ツールでデッドコードを特定し、安全に削除する。
 tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob"]
-model: sonnet
+model: claude-opus-4-7-thinking-high
 ---
 
 # Refactor & Dead Code Cleaner

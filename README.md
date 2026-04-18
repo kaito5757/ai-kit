@@ -65,24 +65,22 @@ install.sh [--claude] [--cursor] <source> <workflow-or-name...>
 
 ```bash
 # Claude Code と Cursor の両方にソース ecc の core ワークフローを入れる
-./install.sh ecc core
+curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- ecc core
 
 # Claude Code だけに入れる
-./install.sh --claude ecc core
+curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- --claude ecc core
 
 # Cursor だけに入れる
-./install.sh --cursor ecc core
+curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- --cursor ecc core
 
 # 複数ワークフローを一度に
-./install.sh ecc core prp
+curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- ecc core prp
 
 # 特定のコマンドだけ（依存エージェントは自動で付いてくる）
-./install.sh ecc ecc-plan ecc-code-review
-
-# リモートから curl 経由で
-curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- ecc core
-curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- --cursor ecc prp
+curl -sL https://raw.githubusercontent.com/kaito5757/ai-kit/main/install.sh | bash -s -- ecc ecc-plan ecc-code-review
 ```
+
+ソースごとの具体例は各ソースの README（例: [ecc/README.md](ecc/README.md)）を参照してください。
 
 ## Claude Code / Cursor の互換性について
 
